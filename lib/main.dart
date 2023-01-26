@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Todo')),
+      appBar: AppBar(title: const Text('Todo')),
       body: Column(
         children: [
           Padding(
@@ -50,10 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 350,
             child: ElevatedButton(
                 onPressed: () {
-                  BlocProvider.of<TodoCubit>(context)
-                      .addNewTodo(_controller.text);
+                  if (_controller.text.isNotEmpty) {
+                    BlocProvider.of<TodoCubit>(context)
+                        .addNewTodo(_controller.text);
+                    _controller.clear();
+                  }
                 },
-                child: Text('Add')),
+                child: const Text('Add')),
           ),
           Expanded(
             child: BlocBuilder<TodoCubit, TodoInitial>(
