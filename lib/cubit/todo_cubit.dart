@@ -13,7 +13,6 @@ class Todo {
   ];
 }
 
-
 class TodoCubit extends Cubit<TodoInitial> {
   TodoCubit() : super(TodoInitial(todos: Todo.data));
 
