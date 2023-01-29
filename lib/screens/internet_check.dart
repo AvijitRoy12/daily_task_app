@@ -1,41 +1,40 @@
-import 'package:daily_task_app/bloc/internet_bloc.dart';
-import 'package:daily_task_app/bloc/internet_state.dart';
+import 'package:daily_task_app/cubit/internet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class InternetCheckingScreen extends StatelessWidget {
+  const InternetCheckingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => InternetBloc(),
+      create: (context) => InternetCubit(),
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),
-        home: HomePage(),
+        home: const InternetCheck(),
       ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class InternetCheck extends StatelessWidget {
+  const InternetCheck({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Connection Test')),
       body: Center(
-          child: BlocConsumer<InternetBloc, InternetState>(
+          child: BlocConsumer<InternetCubit, InternetConnectionState>(
         listener: (context, state) {
-          if (state is InternetGainedState) {
+          if (state == InternetConnectionState.Gained) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Connected!'),
               backgroundColor: Colors.green,
             ));
-          } else if (state is InternetLostState) {
+          } else if (state == InternetConnectionState.Lost) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('No internet connection!'),
               backgroundColor: Colors.red,
@@ -43,9 +42,9 @@ class HomePage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is InternetGainedState) {
+          if (state == InternetConnectionState.Gained) {
             return const Text('Connected!');
-          } else if (state is InternetLostState) {
+          } else if (state == InternetConnectionState.Lost) {
             return const Text('No internet connection!');
           } else {
             return const Text('Loading..');

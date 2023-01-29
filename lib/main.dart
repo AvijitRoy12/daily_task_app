@@ -1,10 +1,12 @@
 import 'package:daily_task_app/cubit/todo_cubit.dart';
-import 'package:daily_task_app/screens/home_page.dart';
+import 'package:daily_task_app/screens/internet_check.dart';
+import 'package:daily_task_app/screens/sign_in/bloc/sign_in_bloc.dart';
+import 'package:daily_task_app/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const Home());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +40,56 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        width: 250,
+        backgroundColor: Colors.blueGrey,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                hoverColor: Colors.blue,
+                dense: true,
+                leading: const Icon(
+                  Icons.show_chart,
+                  color: Colors.black,
+                ),
+                title: const Text('Internet Checking State'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const InternetCheckingScreen()),
+                  );
+                },
+              ),
+              const Divider(
+                height: 2,
+                thickness: 1,
+              ),
+              ListTile(
+                hoverColor: Colors.blue,
+                dense: true,
+                leading: const Icon(
+                  Icons.login_sharp,
+                  color: Colors.black,
+                ),
+                title: const Text('Form Validation'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                              create: (context) => SignInBloc(),
+                              child: SignInScreen(),
+                            )),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(title: const Text('Daily Task')),
       body: Column(
         children: [
